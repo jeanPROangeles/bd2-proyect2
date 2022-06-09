@@ -1,0 +1,12 @@
+For backend (app.py):
+- Change path_data to "recovery/data/"
+- python app.py
+
+For test:
+- Change path_data to "data/"
+- python test.py
+
+For errors in nltk, with python:
+>>> import nltk
+>>> nltk.download('perluniprops')
+>>> nltk.download('nonbreaking_prefixes')
