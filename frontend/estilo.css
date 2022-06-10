@@ -1,11 +1,11 @@
 body{
-    background-color: #000000e7;
+    background-color: #8f6262e7;
     
 }
 
 p.Pexample{
     align-content: center;
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 .querybox{
@@ -36,7 +36,7 @@ p.Pexample{
 
 .search{
     border: none;
-    background-color: #242424;
+    background-color: #761bd7;
     color: white;
     padding: 13px 16px;
     font-size: 15px;
@@ -51,11 +51,11 @@ p.Pexample{
 }
 
 .b1:hover{
-    background-color: #383838;
+    background-color: #2ad31e;
 }
 
 .b2:hover{
-    background-color: #383838;
+    background-color: #e31f1f;
 }
 
 .general{
@@ -65,8 +65,8 @@ p.Pexample{
 
 .generalquery{
     display: inline-flex;
-    background: #202124;
-    border: 1px solid #5f6368;
+    background: #1e4bd4;
+    border: 1px solid #2b63a8;
     box-shadow: none;
     border-radius: 24px;
     height: auto;
@@ -77,7 +77,7 @@ p.Pexample{
 
 
 .separation1{
-    background-color: #1b1b1b;
+    background-color: #e72121;
     border-color:  #00000018;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
@@ -87,11 +87,11 @@ p.Pexample{
 
 .img{
     background: #202124;
-    border: 1px #5f6368;
+    border: 1px #265da0;
     border-top-left-radius: 24px;
     border-bottom-left-radius: 24px;
     border-color:  #00000018;
-    width: 5%;
+    width: 5%;                    
     padding: 17px 25px;
 }
 .img1{
