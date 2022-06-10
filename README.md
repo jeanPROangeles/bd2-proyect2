@@ -2,10 +2,10 @@
 <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/UTEC.jpg" width="200">
 
 ## **Integrantes**
-* Melendez Cabezas, Jean Paul
-* Neira Riveros, Jorge Luis
-* Surco Salas, Marcelo Juan
-
+* Angeles Barazorda, JeanPier
+* Calixto Rojas, Neftali
+* Carlos Acosta, Rodrigo Dion
+* Hilares Barrios, Salvador Eliot
 
 
 ## **Tabla de contenido**
@@ -37,7 +37,7 @@ Es un método para estructurar cierta información para que sea luego recuperada
 
 # **Implementación**
 ## **Información**
-La data recopilada corresponde a aproximadamente cien mil tweets capturados a través de un script programado en Python, el cual capturó tweets en español relacionados con el tema del covid y la pandemia por aproximadamente 10 días (del 29/10/2021 al 08/11/2021), 5 a 6 horas por día.
+La data recopilada corresponde a una colección de aproximadamente 20mil tweets de Twitter capturados a través de un script programado en Python.
 
 ## **Data Recovery**
 Es una clase que contiene todas las funciones necesarias para procesar los tweets capturados. Cuando procesa una cierta cantidad de tweets, genera dos archivos: data.json que guarda todos los términos con su lista de documentos en los que aparece y la frecuencia; y norm.json que guarda todos los documentos (tweets) con el valor de su norma. La información a procesar debe incluirse en la carpeta data_in.
@@ -72,7 +72,7 @@ Dentro del frontend se hiso uso de 4 tecnologías, tales como HTML, CSS, JavaScr
 ### **HTML y CSS**
 Sirvió como estructura principal de las páginas para darles forma y hacer la ventana principal donde se ingresan la búsquedas, asi como en la página de resultados.
 
-<img src="src/principal.png" width="450">
+
 
 ### **JavaScript**
 Se utilizó para comunicar la parte del frontend, con el envio de las querys hacia flask y retornar resultado hacias la página de resultados. Asimismo, permitió controlar los resultados que se muestran acorde a la cantidad fijada que es de 10, por lo que ahi se implementó las funciones de validación, para que no existan errores en la navegación del usuario.
@@ -80,9 +80,7 @@ Se utilizó para comunicar la parte del frontend, con el envio de las querys hac
 ### **Bootstrap**
 Se le dió uso para el formato de tarjetas en las que se muestran los resultados.
 
-<img src="src/result.png" width="450">
+
 
 
 # **Pruebas**
-
-[![Video explicativo](https://img.youtube.com/vi/ZCRJey5BbyA/0.jpg)](https://www.youtube.com/watch?v=ZCRJey5BbyA)
