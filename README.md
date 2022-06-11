@@ -84,3 +84,6 @@ Se le dió uso para el formato de tarjetas en las que se muestran los resultados
 
 
 # **Pruebas**
+Link al video subido a github:
+
+https://www.youtube.com/watch?v=u0qfqtAZv90
