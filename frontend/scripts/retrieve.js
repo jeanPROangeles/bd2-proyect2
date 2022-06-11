@@ -26,7 +26,7 @@ function next(query, npage){
     const value = query;
     const Npage = parseInt(npage, 10) + 1;
     try{
-        fetch('http://127.0.0.1:5050/retrieve/page'+Npage + '/query=' + value, {
+        await fetch('http://127.0.0.1:5050/retrieve/page'+Npage + '/query=' + value, {
             method : 'GET',
             headers: {
                 'Content-Type' : 'application/json'

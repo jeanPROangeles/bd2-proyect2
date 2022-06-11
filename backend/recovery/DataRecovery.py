@@ -24,7 +24,7 @@ path_data = "recovery/data/"
 
 path_file_data = path_data + "data.json"
 path_data_in = path_data + "data_in/"
-path_stop_list = path_data + "stoplist.txt"
+path_stop_list = path_data + "stop_list.txt"
 MAX_TERMS_IN_MAP = 1000000
 MAX_SIZE_OF_PAGE = 10
 path_data_aux = path_data + "data_aux/"
@@ -45,11 +45,11 @@ def process_word(word):
 
 
 class DataRecovery():
-    stopList = []
+    stop_list = []
     stemmer = SnowballStemmer('spanish')
     tokenizer = ToktokTokenizer()
     N = 0  # Cantidad de tweets
-    Nterms = 0  # Cantidad de terminos
+    n_terms = 0  # Cantidad de terminos
 
     map_score = {}
     list_keys = []
@@ -57,21 +57,21 @@ class DataRecovery():
     max_score = 0
 
     def __init__(self):
-        self.stopList.clear()
+        self.stop_list.clear()
         with open(path_stop_list, 'r', encoding="utf-8") as file:
-            self.stopList = [line.lower().strip() for line in file]
+            self.stop_list = [line.lower().strip() for line in file]
             file.close()
         with open(path_norm_doc, 'r', encoding="utf-8") as file:
             self.N = sum(1 for line in file)
             file.close()
         with open(path_file_data, 'r', encoding="utf-8") as file:
-            self.Nterms = sum(1 for line in file)
+            self.n_terms = sum(1 for line in file)
             file.close()
 
     def ini(self):
-        return "Hay en memoria " + str(self.Nterms) + " términos y " + str(self.N) + " tweets procesados"
+        return "Hay en memoria " + str(self.n_terms) + " términos y " + str(self.N) + " tweets procesados"
 
-    def __getStem(self, word):
+    def get_stem(self, word):
         return self.stemmer.stem(word.lower())
 
     def __save_in_file_aux(self, local_map, path):
@@ -86,12 +86,12 @@ class DataRecovery():
 
     def __save_in_file_norm(self, frecuency_map, id):
         with open(path_norm_doc, 'a', encoding="utf-8") as file_norm_out:
-            sum = 0
+            id_sum = 0
             for key in frecuency_map:
-                sum = sum + \
+                id_sum = id_sum + \
                     log10(frecuency_map[key]+1) * log10(frecuency_map[key]+1)
-            sum = sqrt(sum)
-            file_norm_out.write(json.dumps({id: sum}, ensure_ascii=False))
+            id_sum = sqrt(id_sum)
+            file_norm_out.write(json.dumps({id: id_sum}, ensure_ascii=False))
             file_norm_out.write("\n")
             file_norm_out.close()
 
@@ -101,8 +101,8 @@ class DataRecovery():
         return [keys[0], list(item_json.get(keys[0]).items())]
 
     def load(self):
-        tmp = open(path_file_data, 'w').close()
-        tmp = open(path_norm_doc, 'w').close()
+        open(path_file_data, 'w').close()
+        open(path_norm_doc, 'w').close()
         local_map = {}
         size_of_local_map = 0
         id_file_aux = 1
@@ -120,10 +120,9 @@ class DataRecovery():
                         tweet_text = json_tweet.get("text").lower() if json_tweet.get(
                             "RT_text") == None else json_tweet.get("RT_text").lower()
                         tweet_words = self.tokenizer.tokenize(tweet_text)
-                        # tweet_words = nltk.word_tokenize(tweet_text)
                         frecuency_map = {}
                         for tweet_word in tweet_words:
-                            if tweet_word in self.stopList:
+                            if tweet_word in self.stop_list:
                                 continue
                             tweet_word = process_word(tweet_word)
                             if tweet_word == "":
@@ -136,9 +135,9 @@ class DataRecovery():
                                 tweet_word = tweet_word[:pos]
                             if tweet_word == "":
                                 continue
-                            if tweet_word in self.stopList:
+                            if tweet_word in self.stop_list:
                                 continue
-                            tweet_word_root = self.__getStem(tweet_word)
+                            tweet_word_root = self.get_stem(tweet_word)
                             if tweet_word_root in local_map:
                                 if tweet_id in local_map[tweet_word_root]:
                                     local_map[tweet_word_root][tweet_id] = local_map[tweet_word_root][tweet_id] + 1
@@ -187,17 +186,10 @@ class DataRecovery():
             pq.put((read_buffer[i][0], i))
             buffer_remaining.append(i)
         size2 = 0
-        self.Nterms = 0
+        self.n_terms = 0
         with open(path_file_data, 'a', encoding="utf-8") as file:
             while not pq.empty():
                 # Ver buffers y remaining buffers
-                '''
-                for pair in read_buffer:
-                    print(pair[0])
-                for id in buffer_remaining:
-                    print(id, end="\t")
-                print()
-                '''
                 term_dic = {}
                 cur_term, cur_ind = pq.get()
                 term_dic["name"] = cur_term
@@ -243,37 +235,21 @@ class DataRecovery():
                 size2 = size2 + len(term_dic["docs"])
                 file.write(json.dumps(term_dic, ensure_ascii=False))
                 file.write("\n")
-                self.Nterms = self.Nterms + 1
+                self.n_terms = self.n_terms + 1
             # print("n: ", n)
             file.close()
-        print(str(self.Nterms) +
+        print(str(self.n_terms) +
               " términos encontrados")
         print(str(self.N) +
               " tweets procesados")
-        # Comprobación
-        '''
-        size3 = 0
-        with open(path_file_data, 'r', encoding="utf-8") as file:
-            for term in file:
-                term = term.rstrip()
-                json_term = json.load(io.StringIO(term))
-                docs = json_term.get("docs")
-                size3 = size3 + len(docs)
-            file.close()
-        print("Final:")
-        print("size:", size)
-        print("size2:", size2)
-        print("size3:", size3)
-        print("N:", self.N)
-        '''
-        return "Invert index created. " + str(self.Nterms) + " términos encontrados. " + str(self.N) + " tweets procesados"
+        return "Invert index created. " + str(self.n_terms) + " términos encontrados. " + str(self.N) + " tweets procesados"
 
     def __search_term_in_data(self, query_map):
         # query map es un mapa de semanticas con frecuencias
         map_to_return = {}
         for word in query_map:
             lo = 1
-            hi = self.Nterms
+            hi = self.n_terms
             while lo <= hi:
                 mi = (hi + lo) // 2
                 line = linecache.getline(path_file_data, mi).rstrip()
@@ -287,16 +263,6 @@ class DataRecovery():
                     map_to_return[word] = dict(term_json)
                     break
         return map_to_return
-        '''
-        with open(path_file_data, 'r', encoding="utf-8") as file:
-            for line in file:
-                line = line.rstrip()
-                json_term = json.load(io.StringIO(line))
-                if json_term.get("name") in query_map:
-                    map_to_return[json_term.get("name")] = dict(json_term)
-            file.close()
-        return map_to_return
-        '''
 
     def __search_tweet_norm(self, list_tweet_id):
         map_to_return = {}
@@ -333,7 +299,7 @@ class DataRecovery():
         query_words = self.tokenizer.tokenize(query)
         query_map = {}
         for word in query_words:
-            if word in self.stopList:
+            if word in self.stop_list:
                 continue
             word = process_word(word)
             if word == "":
@@ -346,9 +312,9 @@ class DataRecovery():
                 word = word[:pos]
             if word == "":
                 continue
-            if word in self.stopList:
+            if word in self.stop_list:
                 continue
-            query_root_word = self.__getStem(word)
+            query_root_word = self.get_stem(word)
             if query_root_word in query_map:
                 query_map[query_root_word] = query_map[query_root_word] + 1
             else:

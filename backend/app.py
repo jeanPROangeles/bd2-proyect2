@@ -3,10 +3,8 @@ from recovery.DataRecovery import DataRecovery
 from flask import (
 Flask, 
 render_template, 
-request, 
 redirect, 
 url_for, 
-jsonify,
 send_from_directory
 )
 import os
@@ -33,14 +31,12 @@ def score(text):
     nresults = dataRecovery.score(text)
     palabra = text
     print(nresults)
-    #jsonify({'succes': dataRecovery.score(text)}),
     return  redirect(url_for('retrieve', number = n, query = palabra))
 
 
 @app.route("/retrieve/page<number>/query=<query>", methods = ['GET'])
 def retrieve(number, query):
     print(number)
-    #return dataRecovery.retrieve_k_tweets(number)
     data = dataRecovery.retrieve_k_tweets(number)
     palabra = query
     page = number

@@ -9,7 +9,7 @@ document.getElementById('form').onsubmit = function(e){
             'Content-Type' : 'application/json'
         }
     })
-    .then(function(response){
+    .then(function(_response){
         const page = 1;
         window.location.href = "http://127.0.0.1:5050/retrieve/page" + page + "/query=" + query_text;
   
